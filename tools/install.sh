@@ -6,6 +6,10 @@ fi
 
 echo "\033[0;34mCloning Oh My Zsh...\033[0m"
 /usr/bin/env git clone https://github.com/ahirreddy/oh-my-zsh.git ~/.oh-my-zsh
+cd .oh-my-zsh
+git submodule init
+git submodule update
+cd ..
 
 echo "\033[0;34mLooking for an existing zsh config...\033[0m"
 if [ -f ~/.zshrc ] || [ -h ~/.zshrc ]
