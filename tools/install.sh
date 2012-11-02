@@ -5,7 +5,10 @@ then
 fi
 
 echo "\033[0;34mCloning Oh My Zsh...\033[0m"
-/usr/bin/env git clone https://github.com/ahirreddy/oh-my-zsh.git ~/.oh-my-zsh
+hash git >/dev/null && /usr/bin/env git clone https://github.com/ahirreddy/oh-my-zsh.git ~/.oh-my-zsh || {
+  echo "git not installed"
+  exit
+}
 cd .oh-my-zsh
 git submodule init
 git submodule update
