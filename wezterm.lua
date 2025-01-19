@@ -26,6 +26,32 @@ config.ssh_domains = {
 
 config.window_decorations = 'RESIZE|INTEGRATED_BUTTONS'
 
+wezterm.on('spawn-new-tab-in-devbox', function(window, pane)
+  wezterm.log_info('Spawning new tab in devbox')
+  wezterm.log_info('Current pane domain: ' .. pane:get_domain_name())
+  if pane:get_domain_name() == 'devbox' then
+    local cwd = pane:get_current_working_dir().file_path;
+    wezterm.log_info('Spawning from devbox pane')
+    wezterm.log_info('Current working directory: ' .. cwd)
+    -- Spawn a new tab in devbox using the current working directory
+    window:perform_action(
+      wezterm.action.SpawnCommandInNewTab {
+        domain = { DomainName = 'devbox' },
+        cwd = cwd,
+      },
+      pane
+    )
+  else
+    -- If we are spawing a devbox pane from a non-devbox pane, just spawn a new tab and default to ~
+    window:perform_action(
+      wezterm.action.SpawnCommandInNewTab {
+        domain = { DomainName = 'devbox' },
+      },
+      pane
+    )
+  end
+end)
+
 config.keys = {
   { key = 'd', mods = 'CMD|SHIFT', action = action.SplitVertical { domain = 'CurrentPaneDomain' } },
   { key = 'd', mods = 'CMD', action = action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
@@ -35,6 +61,20 @@ config.keys = {
   { key = 'LeftArrow', mods = 'CMD', action = action.SendKey { key = 'Home' } },
   { key = 'RightArrow', mods = 'CMD', action = action.SendKey { key = 'End' } },
   { key = 'p', mods = 'CMD|SHIFT', action = action.ActivateCommandPalette },
+  {
+    key = 't',
+    mods = 'CMD',
+    action = action.SpawnCommandInNewTab {
+      domain = 'DefaultDomain', -- DefaultDomain is "local"
+    },
+  },
+  {
+    key = 'T',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      wezterm.emit('spawn-new-tab-in-devbox', window, pane)
+    end),
+  }
 }
 
 -- Font settings
@@ -156,7 +196,6 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
     Foreground = fg_color,
   }
 end)
-
 
 -- and finally, return the configuration to wezterm
 return config
