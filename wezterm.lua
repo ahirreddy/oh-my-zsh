@@ -78,10 +78,10 @@ config.colors = {
 -- Window settings
 config.enable_wayland = false  -- Disable Wayland by default
 config.window_padding = {
-  left = 1,
-  right = 1,
-  top = 1,
-  bottom = 1,
+  left = 10,
+  right = 10,
+  top = 15,
+  bottom = 2,
 }
 
 -- Cursor
