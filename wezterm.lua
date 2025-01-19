@@ -123,6 +123,12 @@ config.tab_max_width = 200 -- Ensure tabs expand proportionally and are visible
 -- Other settings
 config.enable_tab_bar = true
 
+config.enable_scroll_bar = true
+config.min_scroll_bar_height = '2cell'
+config.colors.scrollbar_thumb = 'gray'
+
+config.scrollback_lines = 1000000
+
 -- and finally, return the configuration to wezterm
 return config
 
