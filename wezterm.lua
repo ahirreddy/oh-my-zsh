@@ -43,8 +43,6 @@ config.font_size = 12.0
 
 -- Font rendering settings
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" } -- Disable ligatures
--- config.font_antialias = "Subpixel" -- Force antialiasing
--- config.font_hinting = "Full" -- Enable full hinting
 
 -- Colors
 config.colors = {
@@ -75,11 +73,6 @@ config.colors = {
     "#93A1A1", -- Bright Cyan (Ansi 14)
     "#FDF6E3", -- Bright White (Ansi 15)
   },
-
-  tab_bar = {
-    -- The color of the inactive tab bar edge/divider
-    inactive_tab_edge = '#575757',
-  },
 }
 
 -- Window settings
@@ -98,30 +91,37 @@ config.default_cursor_style = "BlinkingBlock"
 -- Scrollback
 config.scrollback_lines = 10000
 
+-- Tab settings
+config.tab_bar_at_bottom = false
+config.use_fancy_tab_bar = false -- Use square tabs
+config.colors.tab_bar = {
+  background = "#002B36", -- Match terminal background color
+  active_tab = {
+    bg_color = "#002B36",
+    fg_color = "#839496",
+    intensity = "Bold",
+  },
+  inactive_tab = {
+    bg_color = "#073642",
+    fg_color = "#586E75",
+  },
+  inactive_tab_hover = {
+    bg_color = "#073642",
+    fg_color = "#839496",
+  },
+  new_tab = {
+    bg_color = "#002B36",
+    fg_color = "#839496",
+  },
+  new_tab_hover = {
+    bg_color = "#073642",
+    fg_color = "#839496",
+  },
+}
+config.tab_max_width = 200 -- Ensure tabs expand proportionally and are visible
+
 -- Other settings
 config.enable_tab_bar = true
-
-config.window_frame = {
-  -- The font used in the tab bar.
-  -- Roboto Bold is the default; this font is bundled
-  -- with wezterm.
-  -- Whatever font is selected here, it will have the
-  -- main font setting appended to it to pick up any
-  -- fallback fonts you may have used there.
-  font = wezterm.font { family = 'Roboto', weight = 'Bold' },
-
-  -- The size of the font in the tab bar.
-  -- Default to 10.0 on Windows but 12.0 on other systems
-  font_size = 12.0,
-
-  -- The overall background color of the tab bar when
-  -- the window is focused
-  active_titlebar_bg = '#333333',
-
-  -- The overall background color of the tab bar when
-  -- the window is not focused
-  inactive_titlebar_bg = '#333333',
-}
 
 -- and finally, return the configuration to wezterm
 return config
