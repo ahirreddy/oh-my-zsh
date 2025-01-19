@@ -126,8 +126,37 @@ config.enable_tab_bar = true
 config.enable_scroll_bar = true
 config.min_scroll_bar_height = '2cell'
 config.colors.scrollbar_thumb = 'gray'
+config.tab_max_width = 10000
 
 config.scrollback_lines = 1000000
+
+wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+  local domain_name = tab.active_pane.domain_name
+
+  -- Default colors
+  local bg_color = "#586E75"
+  local fg_color = "#FDF6E3"
+
+  -- Calculate tab width
+  local total_tabs = #tabs
+  local tab_width = math.floor(10000 / total_tabs)
+
+  -- Truncate and pad title based on tab width
+  local title = wezterm.truncate_right(tab.active_pane.title, tab_width - 2)
+  title = wezterm.pad_right(title, tab_width - 2)
+
+  -- Customize for devbox domain
+  if domain_name == 'devbox' then
+    title = '⚡' .. title
+  end
+
+  return {
+    { Text = ' ' .. title .. ' ' },
+    Background = bg_color,
+    Foreground = fg_color,
+  }
+end)
+
 
 -- and finally, return the configuration to wezterm
 return config
