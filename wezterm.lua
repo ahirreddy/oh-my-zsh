@@ -5,6 +5,9 @@ local action = wezterm.action
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 
+-- disable bell
+config.audible_bell = "Disabled"
+
 -- This is where you actually apply your config choices
 
 -- For example, changing the color scheme:
