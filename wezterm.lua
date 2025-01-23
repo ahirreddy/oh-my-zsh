@@ -17,12 +17,13 @@ config.audible_bell = "Disabled"
 
 config.ssh_domains = {
   {
-    -- This name identifies the domain
-    name = 'devbox',
-    -- The hostname or address to connect to. Will be used to match settings
-    -- from your ssh config file
+    name = 'universe2',
     remote_address = 'devbox.databricks.com',
-    -- The username to use on the remote host
+    username = 'ahirreddy',
+  },
+  {
+    name = 'universe3',
+    remote_address = 'devbox.databricks.com',
     username = 'ahirreddy',
   },
 }
@@ -32,27 +33,17 @@ config.window_decorations = 'RESIZE|INTEGRATED_BUTTONS'
 wezterm.on('spawn-new-tab-in-devbox', function(window, pane)
   wezterm.log_info('Spawning new tab in devbox')
   wezterm.log_info('Current pane domain: ' .. pane:get_domain_name())
-  if pane:get_domain_name() == 'devbox' then
-    local cwd = pane:get_current_working_dir().file_path;
-    wezterm.log_info('Spawning from devbox pane')
-    wezterm.log_info('Current working directory: ' .. cwd)
-    -- Spawn a new tab in devbox using the current working directory
-    window:perform_action(
-      wezterm.action.SpawnCommandInNewTab {
-        domain = { DomainName = 'devbox' },
-        cwd = cwd,
-      },
-      pane
-    )
-  else
-    -- If we are spawing a devbox pane from a non-devbox pane, just spawn a new tab and default to ~
-    window:perform_action(
-      wezterm.action.SpawnCommandInNewTab {
-        domain = { DomainName = 'devbox' },
-      },
-      pane
-    )
-  end
+  local cwd = pane:get_current_working_dir().file_path;
+  wezterm.log_info('Spawning from devbox pane')
+  wezterm.log_info('Current working directory: ' .. cwd)
+  -- Spawn a new tab in devbox using the current working directory
+  window:perform_action(
+    wezterm.action.SpawnCommandInNewTab {
+      domain = { DomainName = pane:get_domain_name() },
+      cwd = cwd,
+    },
+    pane
+  )
 end)
 
 config.keys = {
@@ -189,8 +180,8 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
   title = wezterm.pad_right(title, tab_width - 2)
 
   -- Customize for devbox domain
-  if domain_name == 'devbox' then
-    title = '⚡' .. title
+  if domain_name ~= 'local' then
+    title = '⚡' .. domain_name .. ': ' .. title
   end
 
   return {
