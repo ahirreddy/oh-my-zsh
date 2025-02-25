@@ -2,7 +2,7 @@
 
 # Update and install normal stuff
 sudo apt update
-sudo apt install -y wget iotop curl zsh
+sudo apt install -y wget iotop curl zsh mosh
 
 # Create a ~/.bin dir for our binaries
 mkdir -p ~/bin
