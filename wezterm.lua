@@ -21,11 +21,6 @@ config.ssh_domains = {
     remote_address = 'devbox.databricks.com',
     username = 'ahirreddy',
   },
-  {
-    name = 'universe3',
-    remote_address = 'devbox.databricks.com',
-    username = 'ahirreddy',
-  },
 }
 
 config.window_decorations = 'RESIZE|INTEGRATED_BUTTONS'
